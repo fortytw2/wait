@@ -396,28 +396,28 @@ func TestFor(t *testing.T) {
 		Err     bool
 	}{
 		"invoked once": {
-			ConditionFunc(func() (bool, error) {
+			func() (bool, error) {
 				invocations++
 				return true, nil
-			}),
+			},
 			2,
 			1,
 			false,
 		},
 		"invoked and returns a timeout": {
-			ConditionFunc(func() (bool, error) {
+			func() (bool, error) {
 				invocations++
 				return false, nil
-			}),
+			},
 			2,
 			3, // the contract of For() says the func is called once more at the end of the wait
 			true,
 		},
 		"returns immediately on error": {
-			ConditionFunc(func() (bool, error) {
+			func() (bool, error) {
 				invocations++
 				return false, errors.New("test")
-			}),
+			},
 			2,
 			1,
 			true,
